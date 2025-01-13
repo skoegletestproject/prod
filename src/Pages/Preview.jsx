@@ -11,12 +11,12 @@ const Preview = ({ filter }) => {
   const nextVideoRef = useRef(null); // Reference for preloading next video
   const currentVideo = videoData[currentVideoIndex];
   useEffect(() => {
-    axios.post("http://localhost:3000/signal", { action: "start" });
+    axios.post("https://test2sever.onrender.com/signal", { action: "start" });
     fetchVideos();
   }, []);
 
   useEffect(() => {
-    axios.post("http://localhost:3000/signal", { action: "start" });
+    axios.post("https://test2sever.onrender.com/signal", { action: "start" });
     fetchVideos();
   }, [filter]);
 
@@ -40,7 +40,7 @@ const Preview = ({ filter }) => {
   const fetchVideos = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/find?fromdate=${filter?.fromDate}&todate=${filter?.toDate}&fromtime=${filter?.fromTime}&totime=${filter?.toTime}&divisename=${filter?.selectedDevice}`
+        `https://test2sever.onrender.com/find?fromdate=${filter?.fromDate}&todate=${filter?.toDate}&fromtime=${filter?.fromTime}&totime=${filter?.toTime}&divisename=${filter?.selectedDevice}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch videos");
