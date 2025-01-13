@@ -22,12 +22,12 @@ const Preview = ({ filter }) => {
 
   const toggleLive = async () => {
 
-    const checkLive = await axios.get("http://localhost:5000/check-live");
+    const checkLive = await axios.get("https://test2sever.onrender.com/check-live");
  
     if (checkLive.data.isLive) {
       setCurrentVideoIndex(videoData.length -2);
       
-       axios.post("http://localhost:3000/signal", { action: "start" });
+       // axios.post("http://localhost:3000/signal", { action: "start" });
         
     }else{
       setError("Device is Not Live")
