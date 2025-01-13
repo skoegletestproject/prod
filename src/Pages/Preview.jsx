@@ -1,42 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 const Preview = ({ filter }) => {
-  const [videoData, setVideoData] = useState([]); // Store full video data
+  const [videoData, setVideoData] = useState([]); 
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false); // Track play/pause state
+  const [isPlaying, setIsPlaying] = useState(false); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentTime, setCurrentTime] = useState("00:00:00"); // Current playback time
-  const videoRef = useRef(null); // Reference to the video element
-  const nextVideoRef = useRef(null); // Reference for preloading next video
+  const [currentTime, setCurrentTime] = useState("00:00:00"); 
+  const videoRef = useRef(null); 
+  const nextVideoRef = useRef(null); 
   const currentVideo = videoData[currentVideoIndex];
   useEffect(() => {
-    // axios.post("https://test2sever.onrender.com/signal", { action: "start" });
     fetchVideos();
   }, []);
 
   useEffect(() => {
-    // axios.post("https://test2sever.onrender.com/signal", { action: "start" });
     fetchVideos();
   }, [filter]);
 
-  const toggleLive = async () => {
-
-    const checkLive = await axios.get("https://test2sever.onrender.com/check-live");
  
-    if (checkLive.data.isLive) {
-      setCurrentVideoIndex(videoData.length -2);
-      
-       // axios.post("http://localhost:3000/signal", { action: "start" });
-        
-    }else{
-      setError("Device is Not Live")
-      setTimeout(() => {
-        window.location.reload()
-      }, 3000);
-    }
-  };
-
   const fetchVideos = async () => {
     try {
       const response = await fetch(
@@ -47,14 +28,14 @@ const Preview = ({ filter }) => {
       }
       const data = await response.json();
 
-      // Sort the video data by fromtime
+    
       const sortedData = data.sort((a, b) => {
         const timeA = new Date(`1970-01-01T${a.fromtime}Z`).getTime();
         const timeB = new Date(`1970-01-01T${b.fromtime}Z`).getTime();
-        return timeA - timeB; // Ascending order
+        return timeA - timeB; 
       });
 
-      setVideoData(sortedData); // Store sorted video data
+      setVideoData(sortedData); 
       setLoading(false);
     } catch (err) {
       setError(err.message);
@@ -63,33 +44,30 @@ const Preview = ({ filter }) => {
   };
   const togglePlayPause = () => {
     if (isPlaying) {
-      videoRef.current.pause(); // Pause the video
+      videoRef.current.pause(); 
     } else {
-      videoRef.current.play(); // Play the video
+      videoRef.current.play(); 
     }
-    setIsPlaying(!isPlaying); // Toggle play/pause state
+    setIsPlaying(!isPlaying); 
   };
 
   const handleSliderChange = (e) => {
     fetchVideos();
-    // Update the video index based on the slider value
     const newIndex = Number(e.target.value);
     setCurrentVideoIndex(newIndex);
-    setIsPlaying(true); // Reset to pause state
+    setIsPlaying(true);
   };
 
   const handleVideoEnd = () => {
-    console.log("sdf")
     if (currentVideoIndex < videoData.length - 1) {
       setCurrentVideoIndex(currentVideoIndex + 1);
     } else {
-      setCurrentVideoIndex(0); // Loop back to the first video
+      setCurrentVideoIndex(0);
     }
-    setIsPlaying(true); // Automatically start the next video
+    setIsPlaying(true); 
   };
 
   const updateCurrentTime = () => {
-    // Update the current playback time
     const time = videoRef.current.currentTime;
     const hours = Math.floor(time / 3600)
       .toString()
@@ -102,14 +80,6 @@ const Preview = ({ filter }) => {
       .padStart(2, "0");
     setCurrentTime(`${hours}:${minutes}:${seconds}`);
   };
-  // function togleLive() {
-  //   console.log("fd");
-  //   setInterval(() => {
-  //     fetchVideos();
-  //   }, 10000);
-
-  //   setCurrentVideoIndex(videoData.length - 2);
-  // }
 
   useEffect(() => {
     if (videoData.length > 0 && currentVideoIndex < videoData.length - 1) {
@@ -151,12 +121,11 @@ const Preview = ({ filter }) => {
               src={currentVideo.url}
               onEnded={handleVideoEnd}
               autoPlay
-              onTimeUpdate={updateCurrentTime} // Update the current time dynamically
+              onTimeUpdate={updateCurrentTime} 
               style={{ width: "640px", height: "360px" }}
-              preload="auto" // Preload the current video
+              preload="auto"
             />
 
-            {/* Play/Pause Button */}
 
             <div style={{ display: "flix" }}>
               <button
@@ -175,25 +144,10 @@ const Preview = ({ filter }) => {
                 {isPlaying ? "Pause" : "Play"}
               </button>{" "}
               {"  "}
-              <button
-                onClick={toggleLive}
-                style={{
-                  marginTop: "10px",
-                  padding: "10px 20px",
-                  backgroundColor: "#007bff",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                }}
-              >
-                Live
-              </button>
+              
             </div>
           </div>
 
-          {/* Video Timeline Slider */}
           <div
             style={{ marginTop: "20px", width: "100%", textAlign: "center" }}
           >
@@ -214,7 +168,6 @@ const Preview = ({ filter }) => {
             </p>
           </div>
 
-          {/* Current Playback Time */}
           <div style={{ marginTop: "10px" }}>
             <p>
               Current Playback Time: <strong>{currentTime}</strong>
