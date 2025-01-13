@@ -11,12 +11,12 @@ const Preview = ({ filter }) => {
   const nextVideoRef = useRef(null); // Reference for preloading next video
   const currentVideo = videoData[currentVideoIndex];
   useEffect(() => {
-    axios.post("https://test2sever.onrender.com/signal", { action: "start" });
+    // axios.post("https://test2sever.onrender.com/signal", { action: "start" });
     fetchVideos();
   }, []);
 
   useEffect(() => {
-    axios.post("https://test2sever.onrender.com/signal", { action: "start" });
+    // axios.post("https://test2sever.onrender.com/signal", { action: "start" });
     fetchVideos();
   }, [filter]);
 
