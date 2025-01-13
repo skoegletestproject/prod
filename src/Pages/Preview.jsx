@@ -1,46 +1,46 @@
 import React, { useState, useEffect, useRef } from "react";
-
-const Preview = ({ toTime, fromTime, toDate, fromDate, selectedDevice }) => {
-
+import axios from "axios";
+const Preview = ({ filter }) => {
   const [videoData, setVideoData] = useState([]); // Store full video data
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false); // Track play/pause state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentTime, setCurrentTime] = useState("00:00:00"); // Current playback time
-
   const videoRef = useRef(null); // Reference to the video element
   const nextVideoRef = useRef(null); // Reference for preloading next video
-
+  const currentVideo = videoData[currentVideoIndex];
   useEffect(() => {
-   
-
+    axios.post("http://localhost:3000/signal", { action: "start" });
     fetchVideos();
   }, []);
 
   useEffect(() => {
-   
-
+    axios.post("http://localhost:3000/signal", { action: "start" });
     fetchVideos();
-  }, []);
+  }, [filter]);
 
-  useEffect(() => {
-   
+  const toggleLive = async () => {
 
-    fetchVideos();
-  }, [toDate,fromDate,fromTime,toTime,selectedDevice]);
-
-  const toggleLive = () => {
-    setInterval(() => {
-      fetchVideos();
-    }, 10000);
-    setCurrentVideoIndex(videoData.length - 3);
+    const checkLive = await axios.get("http://localhost:5000/check-live");
+ 
+    if (checkLive.data.isLive) {
+      setCurrentVideoIndex(videoData.length -2);
+      
+       axios.post("http://localhost:3000/signal", { action: "start" });
+        
+    }else{
+      setError("Device is Not Live")
+      setTimeout(() => {
+        window.location.reload()
+      }, 3000);
+    }
   };
-  console.log(toDate,fromDate,fromTime,toTime)
+
   const fetchVideos = async () => {
     try {
       const response = await fetch(
-        `https://test2sever.onrender.com/find?fromdate=${fromDate}&todate=${toDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${selectedDevice}`
+        `http://localhost:5000/find?fromdate=${filter?.fromDate}&todate=${filter?.toDate}&fromtime=${filter?.fromTime}&totime=${filter?.toTime}&divisename=${filter?.selectedDevice}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch videos");
@@ -75,10 +75,11 @@ const Preview = ({ toTime, fromTime, toDate, fromDate, selectedDevice }) => {
     // Update the video index based on the slider value
     const newIndex = Number(e.target.value);
     setCurrentVideoIndex(newIndex);
-    setIsPlaying(false); // Reset to pause state
+    setIsPlaying(true); // Reset to pause state
   };
 
   const handleVideoEnd = () => {
+    console.log("sdf")
     if (currentVideoIndex < videoData.length - 1) {
       setCurrentVideoIndex(currentVideoIndex + 1);
     } else {
@@ -101,14 +102,14 @@ const Preview = ({ toTime, fromTime, toDate, fromDate, selectedDevice }) => {
       .padStart(2, "0");
     setCurrentTime(`${hours}:${minutes}:${seconds}`);
   };
-  function togleLive() {
-    console.log("fd");
-    setInterval(() => {
-      fetchVideos();
-    }, 10000);
+  // function togleLive() {
+  //   console.log("fd");
+  //   setInterval(() => {
+  //     fetchVideos();
+  //   }, 10000);
 
-    setCurrentVideoIndex(videoData.length - 2);
-  }
+  //   setCurrentVideoIndex(videoData.length - 2);
+  // }
 
   useEffect(() => {
     if (videoData.length > 0 && currentVideoIndex < videoData.length - 1) {
@@ -125,14 +126,14 @@ const Preview = ({ toTime, fromTime, toDate, fromDate, selectedDevice }) => {
   if (loading) return <p>Loading videos...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  const currentVideo = videoData[currentVideoIndex];
+ 
 
   return (
     <div>
       {videoData.length > 0 ? (
         <div>
           <h3>
-            Playing Video: {currentVideo.filename} ({currentVideo.fromtime} -{" "}
+            Playing Video: {currentVideo?.filename} ({currentVideo?.fromtime} -{" "}
             {currentVideo.totime})
           </h3>
 
@@ -157,38 +158,39 @@ const Preview = ({ toTime, fromTime, toDate, fromDate, selectedDevice }) => {
 
             {/* Play/Pause Button */}
 
-            <dev style={{display:"flix" }}>
-            <button
-              onClick={togglePlayPause}
-              style={{
-                marginTop: "10px",
-                padding: "10px 20px",
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontSize: "16px",
-              }}
-            >
-              {isPlaying ? "Pause" : "Play"}
-            </button> {"  "}
-            <button
-              onClick={toggleLive}
-              style={{
-                marginTop: "10px",
-                padding: "10px 20px",
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontSize: "16px",
-              }}
-            >
-             Live
-            </button>
-            </dev>
+            <div style={{ display: "flix" }}>
+              <button
+                onClick={togglePlayPause}
+                style={{
+                  marginTop: "10px",
+                  padding: "10px 20px",
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+              >
+                {isPlaying ? "Pause" : "Play"}
+              </button>{" "}
+              {"  "}
+              <button
+                onClick={toggleLive}
+                style={{
+                  marginTop: "10px",
+                  padding: "10px 20px",
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+              >
+                Live
+              </button>
+            </div>
           </div>
 
           {/* Video Timeline Slider */}
@@ -220,7 +222,9 @@ const Preview = ({ toTime, fromTime, toDate, fromDate, selectedDevice }) => {
           </div>
         </div>
       ) : (
-        <p>No videos available for the selected date range.</p>
+        <p style={{ color: "black" }}>
+          No videos available for the selected date range.
+        </p>
       )}
     </div>
   );

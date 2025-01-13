@@ -24,7 +24,17 @@ export default function Layout({ children }) {
     <>
       <Navbar />
 
-      <main style={{ minHeight }}>{children}</main>
+      <main
+        // style={{
+        //   minHeight,
+        //   backgroundImage: "url('LiveCam.jpg')",
+        //   backgroundSize: "cover",
+        //   backgroundPosition: "center",
+        //   zIndex:"10"
+        // }}
+      >
+        {children}
+      </main>
       
       <Footor />
     </>
