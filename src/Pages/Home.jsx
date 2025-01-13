@@ -18,7 +18,7 @@ export default function Home() {
     const [fromTime, setFromTime] = useState("01:00:00");
     const [toTime, setToTime] = useState("23:00:00");
     const [errors, setErrors] = useState({}); // State for validation errors
-    // const [filter,setFilter] = useState("")
+    const [filter,setFilter] = useState({selectedDevice:"Device-2",fromDate:today,toDate:today,fromTime:"01:00:00",toTime:"23:00:00"})
     const validateInputs = () => {
         const newErrors = {};
 
@@ -42,14 +42,12 @@ export default function Home() {
     const handleFilter = () => {
         if (validateInputs()) {
           
-            setFromDate(fromDate)
-            setToDate(toDate)
-            setToTime(toTime)
-            setFromTime(fromTime)
-            setSelectedDevice(selectedDevice)
-            // setFilter(filterData)
-            // console.log("Filter Data:", filterData);
-            // alert(JSON.stringify(filterData, null, 2)); // Display data in alert
+          const data= {
+            selectedDevice,fromDate,toDate,fromTime,toTime
+          }
+
+          setFilter(data)
+        console.log(data)
         }
     };
 
@@ -59,7 +57,7 @@ export default function Home() {
           
             {/* Video Component */}
             <div style={styles.videoContainer}>
-             <Preview selectedDevice={selectedDevice} fromDate={fromDate} toDate={toDate} fromTime={fromTime} toTime={toTime}/>
+             <Preview filter={filter}/>
 
                 {/* Dropdown and Inputs */}
                 <div style={styles.controls}>
@@ -123,11 +121,11 @@ export default function Home() {
                     </div>
 
                     {/* Filter Button */}
-                    {/* <div style={styles.controlItem}>
+                    <div style={styles.controlItem}>
                         <button style={styles.filterButton} onClick={handleFilter}>
                             Filter
                         </button>
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </div>
