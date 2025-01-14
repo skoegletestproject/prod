@@ -38,7 +38,7 @@ const LivePreview = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8000/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${deviceName}`
+        `http://localhost:5000/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${deviceName}`
       );
 
       if (response.data && response.data.length > 0) {
