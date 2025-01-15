@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Preview from "./Preview";
 
 export default function Home() {
@@ -12,13 +12,13 @@ export default function Home() {
 
     const today = formatDate(new Date());
 
-    const [selectedDevice, setSelectedDevice] = useState("Device-2");
+    const [selectedDevice, setSelectedDevice] = useState("Device-1");
     const [fromDate, setFromDate] = useState(today);
     const [toDate, setToDate] = useState(today);
     const [fromTime, setFromTime] = useState("01:00:00");
     const [toTime, setToTime] = useState("23:00:00");
     const [errors, setErrors] = useState({}); // State for validation errors
-    const [filter,setFilter] = useState({selectedDevice:"Device-2",fromDate:today,toDate:today,fromTime:"01:00:00",toTime:"23:00:00"})
+    const [filter,setFilter] = useState({selectedDevice:"Device-1",fromDate:today,toDate:today,fromTime:"01:00:00",toTime:"23:00:00"})
     const validateInputs = () => {
         const newErrors = {};
 
@@ -41,15 +41,20 @@ export default function Home() {
 
     const handleFilter = () => {
         if (validateInputs()) {
-          
+            localStorage.setItem("Device",selectedDevice)
           const data= {
             selectedDevice,fromDate,toDate,fromTime,toTime
           }
+       
 
           setFilter(data)
         console.log(data)
         }
     };
+
+    useEffect(()=>{
+        localStorage.setItem("Device",selectedDevice)
+    })
 
     return (
         <div style={styles.container}>
@@ -73,8 +78,11 @@ export default function Home() {
                             style={styles.select}
                         >
                             {/* <option value="Device-1">Device 1</option> */}
+                            <option value="Device-1">Device 1</option>
                             <option value="Device-2">Device 2</option>
                             <option value="Device-3">Device 3</option>
+                            <option value="Device-4">Device 4</option>
+                            <option value="Device-5">Device 5</option>
                         </select>
                     </div>
 

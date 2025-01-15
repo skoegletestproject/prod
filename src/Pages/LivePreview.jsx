@@ -8,13 +8,14 @@ const LivePreview = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const videoRef = useRef(null);
-
+  const [isPlaying, setIsPlaying] = useState(false);
+   
   // Function to check if the device is live
   const checkDeviceLiveStatus = async () => {
     setLoading(true);
     try {
       const response = await axios.get("http://localhost:5000/check-live");
-      if (true) {
+      if (response.data.isLive) {
         setIsLive(true);
         fetchVideos(); // Fetch initial videos if live
       } else {
@@ -34,11 +35,11 @@ const LivePreview = () => {
     const formattedDate = new Date().toLocaleDateString("en-GB").replace(/\//g, "-");
     const fromTime = "01:00:00"; // Start of the day
     const toTime = "23:59:59"; // End of the day
-    const deviceName = "Device-2"; // Device name
+    const deviceName = localStorage.getItem("Device") // Device name
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${deviceName}`
+        `https://test2sever.onrender.com/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${deviceName}`
       );
 
       if (response.data && response.data.length > 0) {
@@ -48,7 +49,7 @@ const LivePreview = () => {
           return timeA - timeB; // Sort by fromtime
         });
         setVideoData(sortedData);
-        setCurrentVideoIndex(sortedData.length - 5); // Start with the last video
+        setCurrentVideoIndex(sortedData.length - 1); // Start with the last video
         videoRef.current.play();  
       } else {
         setError("No videos found for the selected date.");
@@ -60,18 +61,42 @@ const LivePreview = () => {
 
   // Function to handle video end event
   const handleVideoEnd = () => {
-    if (currentVideoIndex < videoData.length - 1) {
-      setCurrentVideoIndex((prevIndex) => prevIndex + 1); // Play next video
+    if (currentVideoIndex < videoData.length - 2) {
+      setCurrentVideoIndex((prevIndex) => prevIndex + 2); // Play next video
     } else {
-      // Send stop signal via curl
-      sendStopSignal();
-      setCurrentVideoIndex(0); // Reset to the first video or handle as needed
+      setCurrentVideoIndex(videoData.length-1); // Reset to the first video or handle as needed
     }
   };
-
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      videoRef.current.pause(); 
+      // sendStopSignal()
+    } else {
+      sendSignal()
+      videoRef.current.play(); 
+    }
+    setIsPlaying(!isPlaying); 
+  };
   // Function to send stop signal via curl request
-  const sendStopSignal = () => {
+  const sendSignal = () => {
     setInterval(() => {
+      fetch("http://localhost:3000/signal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "start",
+        }),
+      })
+      .then(response => response.json())
+      .then(data => console.log("Stop signal sent"))
+      .catch(error => console.error("Error sending stop signal:", error));
+    }, 10000); // Interval of 1.5 seconds
+  };
+
+  const sendStopSignal = () => {
+    // setInterval(() => {
       fetch("http://localhost:3000/signal", {
         method: "POST",
         headers: {
@@ -84,8 +109,9 @@ const LivePreview = () => {
       .then(response => response.json())
       .then(data => console.log("Stop signal sent"))
       .catch(error => console.error("Error sending stop signal:", error));
-    }, 1500); // Interval of 1.5 seconds
+    // }, 1500); // Interval of 1.5 seconds
   };
+
 
   // Function to fetch latest videos every 30 seconds
   const fetchVideosPeriodically = () => {
@@ -93,7 +119,9 @@ const LivePreview = () => {
       fetchVideos(); // Fetch new video data every 30 seconds
     }, 30000); // 30-second interval
   };
-
+useEffect(()=>{
+  sendSignal()
+})
   // Auto-play the current video whenever it changes
   useEffect(() => {
     if (videoData.length > 0 && currentVideoIndex >= 0) {
@@ -107,6 +135,7 @@ const LivePreview = () => {
 
   // Initial check for device live status when the component mounts
   useEffect(() => {
+   
     checkDeviceLiveStatus();
     const interval = setInterval(() => {
       if (isLive) {
@@ -122,7 +151,10 @@ const LivePreview = () => {
   }, [isLive]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (error) return  <p>{error}</p>;
+    
+  
+ 
 
   return (
     <div>
@@ -138,11 +170,29 @@ const LivePreview = () => {
               style={{ width: "640px", height: "360px" }}
               preload="auto"
             />
+
+            <br/>
+
+            <button
+                onClick={togglePlayPause}
+                style={{
+                  marginTop: "10px",
+                  padding: "10px 20px",
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+              >
+                {isPlaying ? "Stop Live" : "Go Live"}
+              </button>{" "}
             <p>Currently Playing: {videoData[currentVideoIndex]?.filename}</p>
           </div>
         </div>
       ) : (
-        <p>Device is not live. Please check the device status.</p>
+        <p>Device is not licve. Please check the device status.</p>
       )}
     </div>
   );

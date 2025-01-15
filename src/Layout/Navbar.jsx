@@ -31,7 +31,7 @@ export default function Navbar() {
                 <Link to="/preview" style={styles.link}>
                     Preview
                 </Link>
-                <Link to="/login" style={styles.link}>
+                {/* <Link to="/login" style={styles.link}>
                     Login
                 </Link>
                 <Link to="/signup" style={styles.link}>
@@ -39,7 +39,7 @@ export default function Navbar() {
                 </Link>
                 <Link to="/login" style={styles.link}>
                     Home
-                </Link>
+                </Link> */}
             </div>
 
             {/* Mobile Menu Icon */}
