@@ -118,7 +118,7 @@ const LivePreview = () => {
   const fetchVideosPeriodically = () => {
     setInterval(() => {
       fetchVideos(); // Fetch new video data every 30 seconds
-    }, 30000); // 30-second interval
+    }, 20000); // 30-second interval
   };
 useEffect(()=>{
   sendSignal()
@@ -142,7 +142,7 @@ useEffect(()=>{
       if (isLive) {
         fetchVideos(); // Refresh videos every 5 minutes
       }
-    }, 300000); // 5-minute interval
+    }, 200000); // 5-minute interval
 
     fetchVideosPeriodically(); // Start periodic fetching of new video data every 30 seconds
 
