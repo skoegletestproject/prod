@@ -51,7 +51,9 @@ export default function Home() {
         console.log(data)
         }
     };
-
+    useEffect(()=>{
+        sendSignal()
+      },[])
     useEffect(()=>{
         localStorage.setItem("Device",selectedDevice)
     })
