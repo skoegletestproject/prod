@@ -7,6 +7,7 @@ const LivePreview = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+ const [selectedDevice, setSelectedDevice] = useState("Device-1");
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
    
@@ -14,7 +15,7 @@ const LivePreview = () => {
   const checkDeviceLiveStatus = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://test2sever.onrender.com/check-live");
+      const response = await axios.get(`https://test2sever.onrender.com/check-live?divisename=${selectedDevice}`);
       if (response.data.isLive) {
         setIsLive(true);
         fetchVideos(); // Fetch initial videos if live
@@ -148,10 +149,10 @@ useEffect(()=>{
     return () => {
       clearInterval(interval); // Cleanup interval on unmount
     };
-  }, [isLive]);
+  }, [isLive,selectedDevice]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return  <p>{error}</p>;
+  // if (error) return  <p>{error}</p>;
     
   
  
@@ -189,13 +190,139 @@ useEffect(()=>{
                 {isPlaying ? "Stop Live" : "Go Live"}
               </button>{" "}
             <p>Currently Playing: {videoData[currentVideoIndex]?.filename}</p>
+
+            <div style={styles.controlItem}>
+                        <label style={styles.label} htmlFor="deviceSelect">
+                            Select Device:
+                        </label>
+                        <select
+                            id="deviceSelect"
+                            value={selectedDevice}
+                            onChange={(e) => setSelectedDevice(e.target.value)}
+                            style={styles.select}
+                        >
+                            {/* <option value="Device-1">Device 1</option> */}
+                            <option value="Device-1">Device 1</option>
+                            <option value="Device-2">Device 2</option>
+                            <option value="Device-3">Device 3</option>
+                            <option value="Device-4">Device 4</option>
+                            <option value="Device-5">Device 5</option>
+                        </select>
+                    </div>
           </div>
+          
         </div>
       ) : (
+        <>
+       
         <p>Device is not licve. Please check the device status.</p>
+        <div style={styles.controlItem}>
+                        <label style={styles.label} htmlFor="deviceSelect">
+                            Select Device:
+                        </label>
+                        <select
+                            id="deviceSelect"
+                            value={selectedDevice}
+                            onChange={(e) => setSelectedDevice(e.target.value)}
+                            style={styles.select}
+                        >
+                            {/* <option value="Device-1">Device 1</option> */}
+                            <option value="Device-1">Device 1</option>
+                            <option value="Device-2">Device 2</option>
+                            <option value="Device-3">Device 3</option>
+                            <option value="Device-4">Device 4</option>
+                            <option value="Device-5">Device 5</option>
+                        </select>
+                    </div>
+        </>
       )}
     </div>
   );
 };
 
 export default LivePreview; 
+
+const styles = {
+  container: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "20px",
+      gap: "20px",
+  },
+  buttonContainer: {
+      display: "flex",
+      flexDirection: "row",
+      gap: "20px",
+  },
+  button: {
+      padding: "10px 20px",
+      fontSize: "16px",
+      fontWeight: "bold",
+      backgroundColor: "#007bff",
+      color: "#fff",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
+      transition: "background-color 0.3s",
+  },
+  videoContainer: {
+      display: "flex",
+      flexDirection: "row",
+      gap: "20px",
+      alignItems: "flex-start",
+      width: "100%",
+      maxWidth: "800px",
+  },
+  video: {
+      flex: 1,
+      border: "1px solid #ccc",
+      borderRadius: "5px",
+      backgroundColor: "#000",
+  },
+  controls: {
+      flex: 1,
+      display: "flex",
+      flexDirection: "column",
+      gap: "15px",
+      margin:"50px 80px"
+  },
+  controlItem: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "5px",
+      width:"200px"
+  },
+  label: {
+      fontSize: "14px",
+      fontWeight: "bold",
+      color: "#333",
+  },
+  select: {
+      padding: "8px",
+      fontSize: "14px",
+      border: "1px solid #ccc",
+      borderRadius: "5px",
+  },
+  input: {
+      padding: "8px",
+      fontSize: "14px",
+      border: "1px solid #ccc",
+      borderRadius: "5px",
+  },
+  filterButton: {
+      padding: "10px 20px",
+      fontSize: "16px",
+      fontWeight: "bold",
+      backgroundColor: "#28a745",
+      color: "#fff",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
+      transition: "background-color 0.3s",
+  },
+  error: {
+      color: "red",
+      fontSize: "12px",
+  },
+};
