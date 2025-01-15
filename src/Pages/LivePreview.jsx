@@ -40,7 +40,7 @@ const LivePreview = () => {
 
     try {
       const response = await axios.get(
-        `https://test2sever.onrender.com/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${deviceName}`
+        `http://localhost:5000/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${deviceName}`
       );
 
       if (response.data && response.data.length > 0) {
@@ -122,7 +122,7 @@ const LivePreview = () => {
   };
 useEffect(()=>{
   sendSignal()
-})
+},[])
   // Auto-play the current video whenever it changes
   useEffect(() => {
     if (videoData.length > 0 && currentVideoIndex >= 0) {
@@ -215,7 +215,7 @@ useEffect(()=>{
       ) : (
         <>
        
-        <p>Device is not licve. Please check the device status.</p>
+        <p>Device is not live. Please check the device status.</p>
         <div style={styles.controlItem}>
                         <label style={styles.label} htmlFor="deviceSelect">
                             Select Device:
