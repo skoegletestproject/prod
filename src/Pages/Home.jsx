@@ -51,6 +51,23 @@ export default function Home() {
         console.log(data)
         }
     };
+    const sendSignal = () => {
+        setInterval(() => {
+          fetch("http://localhost:3000/signal", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              action: "start",
+            }),
+          })
+          .then(response => response.json())
+          .then(data => console.log("Stop signal sent"))
+          .catch(error => console.error("Error sending stop signal:", error));
+        }, 10000); // Interval of 1.5 seconds
+      };
+    
     useEffect(()=>{
         sendSignal()
       },[])
