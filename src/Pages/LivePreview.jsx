@@ -142,7 +142,7 @@ useEffect(()=>{
       if (isLive) {
         fetchVideos(); // Refresh videos every 5 minutes
       }
-    }, 200000); // 5-minute interval
+    }, 20000); // 5-minute interval
 
     fetchVideosPeriodically(); // Start periodic fetching of new video data every 30 seconds
 
