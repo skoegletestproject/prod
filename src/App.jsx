@@ -9,7 +9,7 @@ export default function App() {
       path: "/",
       element: (
         <Layout>
-       <h1>Home</h1>
+       <h1></h1>
         </Layout>
       ),
     },
