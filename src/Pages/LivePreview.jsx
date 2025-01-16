@@ -15,8 +15,8 @@ const LivePreview = () => {
   const checkDeviceLiveStatus = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3000/check-live/?divisename=${selectedDevice}`);
-      if (response.data.isLive) {
+      const response = await axios.get(`https://awsjob.onrender.com/check-live/?divisename=${selectedDevice}`);
+      if (response) {
         setIsLive(true);
         fetchVideos(); // Fetch initial videos if live
       } else {
