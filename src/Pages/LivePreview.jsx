@@ -10,13 +10,20 @@ const LivePreview = () => {
  const [selectedDevice, setSelectedDevice] = useState("Device-1");
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-   
+  const formattedDate = new Date().toLocaleDateString("en-GB").replace(/\//g, "-");
+  const fromTime = "01:00:00"; // Start of the day
+  const toTime = "23:59:59"; // End of the day
+  const now = new Date();
+  const currentTime = now.toTimeString().slice(0, 8); 
+  const oneMinuteAgo = new Date(now.getTime() - 1.5 * 60 * 1000);
+  const oneMinuteAgoTime = oneMinuteAgo.toTimeString().slice(0, 8); 
+  console.log(oneMinuteAgoTime,currentTime)
   // Function to check if the device is live
   const checkDeviceLiveStatus = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`https://awsjob.onrender.com/check-live/?divisename=${selectedDevice}`);
-      if (response) {
+      const response = await axios.get(`http://localhost:3000/check-live/?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${oneMinuteAgoTime}&totime=${currentTime}&divisename=${selectedDevice}`);
+      if (response.data.isLive) {
         setIsLive(true);
         fetchVideos(); // Fetch initial videos if live
       } else {
@@ -33,10 +40,8 @@ const LivePreview = () => {
 
   // Function to fetch video data
   const fetchVideos = async () => {
-    const formattedDate = new Date().toLocaleDateString("en-GB").replace(/\//g, "-");
-    const fromTime = "01:00:00"; // Start of the day
-    const toTime = "23:59:59"; // End of the day
-    const deviceName = localStorage.getItem("Device") // Device name
+
+
 
     try {
       const response = await axios.get(
