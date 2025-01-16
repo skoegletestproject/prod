@@ -52,7 +52,7 @@ const Preview = ({ filter }) => {
   };
 
   const handleSliderChange = (e) => {
-    fetchVideos();
+    // fetchVideos();
     const newIndex = Number(e.target.value);
     setCurrentVideoIndex(newIndex);
     setIsPlaying(true);
