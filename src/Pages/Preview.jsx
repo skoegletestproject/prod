@@ -21,7 +21,7 @@ const Preview = ({ filter }) => {
   const fetchVideos = async () => {
     try {
       const response = await fetch(
-        `https://test2sever.onrender.com/find?fromdate=${filter?.fromDate}&todate=${filter?.toDate}&fromtime=${filter?.fromTime}&totime=${filter?.toTime}&divisename=${filter?.selectedDevice}`
+        `https://awsjob.onrender.com/find?fromdate=${filter?.fromDate}&todate=${filter?.toDate}&fromtime=${filter?.fromTime}&totime=${filter?.toTime}&divisename=${filter?.selectedDevice}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch videos");
