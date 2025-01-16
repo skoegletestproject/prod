@@ -40,7 +40,7 @@ const LivePreview = () => {
 
     try {
       const response = await axios.get(
-        `https://awsjob.onrender.com/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${deviceName}`
+        `https://awsjob.onrender.com/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${selectedDevice}`
       );
 
       if (response.data && response.data.length > 0) {
