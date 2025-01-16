@@ -15,7 +15,7 @@ const LivePreview = () => {
   const checkDeviceLiveStatus = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`https://awsjob.onrender.com/check-live?divisename=${selectedDevice}`);
+      const response = await axios.get(`http://localhost:3000/check-live/?divisename=${selectedDevice}`);
       if (response.data.isLive) {
         setIsLive(true);
         fetchVideos(); // Fetch initial videos if live
@@ -40,7 +40,7 @@ const LivePreview = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${deviceName}`
+        `https://awsjob.onrender.com/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${deviceName}`
       );
 
       if (response.data && response.data.length > 0) {
@@ -81,7 +81,7 @@ const LivePreview = () => {
   // Function to send stop signal via curl request
   const sendSignal = () => {
     setInterval(() => {
-      fetch("http://localhost:3000/signal", {
+      fetch("https://awsjob.onrender.com/signal", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +98,7 @@ const LivePreview = () => {
 
   const sendStopSignal = () => {
     // setInterval(() => {
-      fetch("http://localhost:3000/signal", {
+      fetch("https://awsjob.onrender.com/signal", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
