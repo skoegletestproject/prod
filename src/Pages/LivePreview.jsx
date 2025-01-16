@@ -22,7 +22,7 @@ const LivePreview = () => {
   const checkDeviceLiveStatus = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3000/check-live/?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${oneMinuteAgoTime}&totime=${currentTime}&divisename=${selectedDevice}`);
+      const response = await axios.get(`https://awsjob.onrender.com/check-live/?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${oneMinuteAgoTime}&totime=${currentTime}&divisename=${selectedDevice}`);
       if (response.data.isLive) {
         setIsLive(true);
         fetchVideos(); // Fetch initial videos if live
