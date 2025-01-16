@@ -9,9 +9,9 @@ const Preview = ({ filter }) => {
   const videoRef = useRef(null); 
   const nextVideoRef = useRef(null); 
   const currentVideo = videoData[currentVideoIndex];
-  useEffect(() => {
-    fetchVideos();
-  }, []);
+  // useEffect(() => {
+  //   fetchVideos();
+  // }, []);
 
   useEffect(() => {
     fetchVideos();

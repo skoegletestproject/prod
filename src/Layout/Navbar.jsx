@@ -25,12 +25,13 @@ export default function Navbar() {
                     ...(isMenuOpen ? styles.navLinksOpen : {}),
                 }}
             >
+                 <Link to="/preview" style={styles.link}>
+                    Preview
+                </Link>
                 <Link to="/Live" style={styles.link}>
                     Live
                 </Link>
-                <Link to="/preview" style={styles.link}>
-                    Preview
-                </Link>
+               
                 {/* <Link to="/login" style={styles.link}>
                     Login
                 </Link>

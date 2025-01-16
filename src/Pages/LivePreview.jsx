@@ -127,7 +127,7 @@ const LivePreview = () => {
   };
 useEffect(()=>{
   sendSignal()
-},[])
+},[selectedDevice])
   // Auto-play the current video whenever it changes
   useEffect(() => {
     if (videoData.length > 0 && currentVideoIndex >= 0) {
