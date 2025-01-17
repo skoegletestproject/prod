@@ -158,7 +158,7 @@ const LivePreview = () => {
   if (loading) {
     return(
       <>
-      <img style={{marginLeft:"300px",marginTop:"80px"}} name="lodingimage" src="/stream.gif" />
+      <img style={{marginLeft:"300px",marginTop:"80px"}} name="lodingimage" src="/Loading.gif" />
       </>
     )
   }
