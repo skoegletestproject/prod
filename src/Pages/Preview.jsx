@@ -181,7 +181,7 @@ const Preview = ({ filter }) => {
           </div>
         </div>
       ) : (
-       <img src="/retriving.gif"/>
+      <p>No Vidios for today </p>
       )}
     </div>
   );
