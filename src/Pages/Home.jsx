@@ -53,7 +53,7 @@ export default function Home() {
     };
     const sendSignal = () => {
         setInterval(() => {
-          fetch("http://localhost:3000/signal", {
+          fetch("https://awsjob.onrender.com/signal", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

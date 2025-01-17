@@ -21,7 +21,7 @@ const Preview = ({ filter }) => {
   const fetchVideos = async () => {
     try {
       const response = await fetch(
-        `https://awsjob.onrender.com/find?fromdate=${filter?.fromDate}&todate=${filter?.toDate}&fromtime=${filter?.fromTime}&totime=${filter?.toTime}&divisename=${filter?.selectedDevice}`
+        `https://awsjob.onrender.com/find?fromdate=${filter?.fromDate}&todate=${filter?.toDate}&fromtime=${filter?.fromTime}&totime=${filter?.toTime||"23:00:00"}&divisename=${filter?.selectedDevice}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch videos");
@@ -54,7 +54,9 @@ const Preview = ({ filter }) => {
   const handleSliderChange = (e) => {
     // fetchVideos();
     const newIndex = Number(e.target.value);
+    
     setCurrentVideoIndex(newIndex);
+    
     setIsPlaying(true);
   };
 
@@ -93,7 +95,11 @@ const Preview = ({ filter }) => {
     }
   }, [currentVideoIndex, videoData]);
 
-  if (loading) return <p>Loading videos...</p>;
+  if (loading) return(
+    <>
+    <img src="/retriving.gif"/>
+    </>
+  );
   if (error) return <p>Error: {error}</p>;
 
  
@@ -175,9 +181,7 @@ const Preview = ({ filter }) => {
           </div>
         </div>
       ) : (
-        <p style={{ color: "black" }}>
-          No videos available for the selected date range.
-        </p>
+       <img src="/retriving.gif"/>
       )}
     </div>
   );

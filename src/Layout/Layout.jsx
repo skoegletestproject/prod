@@ -1,42 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Footor from "./Footor";
 import Navbar from "./Navbar";
 
 export default function Layout({ children }) {
-  const [minHeight, setMinHeight] = useState("550px");
+  const layoutContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+  };
 
-  useEffect(() => {
-    const updateMinHeight = () => {
-      if (window.innerWidth <= 580) {
-        setMinHeight("auto");
-      } else {
-        setMinHeight("580px");
-      }
-    };
+  const layoutContentStyle = {
+    flex: 1,
+    padding: "20px", // Adjust padding as needed
+  };
 
-    updateMinHeight();
-    window.addEventListener("resize", updateMinHeight);
-
-    return () => window.removeEventListener("resize", updateMinHeight);
-  }, []);
+  const footorStyle = {
+    backgroundColor: "#f8f9fa", // Adjust as needed
+    textAlign: "center",
+    padding: "10px 0",
+    position: "relative",
+    width: "100%",
+  };
 
   return (
-    <>
+    <div style={layoutContainerStyle}>
       <Navbar />
 
-      <main
-        style={{
-          minHeight,
-          // backgroundImage: "url('LiveCam.jpg')",
-          // backgroundSize: "cover",
-          // backgroundPosition: "center",
-          zIndex:"10"
-        }}
-      >
-        {children}
-      </main>
-      
-      <Footor />
-    </>
+      <main style={layoutContentStyle}>{children}</main>
+
+      <Footor style={footorStyle} />
+    </div>
   );
 }
