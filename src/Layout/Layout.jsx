@@ -1,8 +1,8 @@
 import React from "react";
 import Footor from "./Footor";
 import Navbar from "./Navbar";
-
-export default function Layout({ children }) {
+import { Helmet } from "react-helmet";
+export default function Layout({ children, titlename }) {
   const layoutContainerStyle = {
     display: "flex",
     flexDirection: "column",
@@ -25,7 +25,11 @@ export default function Layout({ children }) {
   return (
     <div style={layoutContainerStyle}>
       <Navbar />
-
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{titlename}</title>
+        <link rel="canonical" href="http://mysite.com/example" />
+      </Helmet>
       <main style={layoutContentStyle}>{children}</main>
 
       <Footor style={footorStyle} />
