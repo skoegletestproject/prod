@@ -25,7 +25,7 @@ const LivePreview = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://awsjob.onrender.com/check-live/?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${oneMinuteAgoTime}&totime=${currentTime}&divisename=${selectedDevice}`
+        `https://server2-getfromdatabase.onrender.com/check-live/?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${oneMinuteAgoTime}&totime=${currentTime}&divisename=${selectedDevice}`
       );
       if (response.data.isLive) {
         setIsLive(true);
@@ -46,7 +46,7 @@ const LivePreview = () => {
   const fetchVideos = async () => {
     try {
       const response = await axios.get(
-        `https://awsjob.onrender.com/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${selectedDevice}`
+        `https://server2-getfromdatabase.onrender.com/find?fromdate=${formattedDate}&todate=${formattedDate}&fromtime=${fromTime}&totime=${toTime}&divisename=${selectedDevice}`
       );
 
       if (response.data && response.data.length > 0) {
@@ -79,45 +79,14 @@ const LivePreview = () => {
       videoRef.current.pause();
       // sendStopSignal()
     } else {
-      sendSignal();
+     
       videoRef.current.play();
     }
     setIsPlaying(!isPlaying);
   };
   // Function to send stop signal via curl request
-  const sendSignal = () => {
-    setInterval(() => {
-      fetch("https://awsjob.onrender.com/signal", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          action: "start",
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log("Stop signal sent"))
-        .catch((error) => console.error("Error sending stop signal:", error));
-    }, 10000); // Interval of 1.5 seconds
-  };
 
-  const sendStopSignal = () => {
-    // setInterval(() => {
-    fetch("https://awsjob.onrender.com/signal", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        action: "stop",
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log("Stop signal sent"))
-      .catch((error) => console.error("Error sending stop signal:", error));
-    // }, 1500); // Interval of 1.5 seconds
-  };
+
 
   // Function to fetch latest videos every 30 seconds
   const fetchVideosPeriodically = () => {
@@ -125,10 +94,7 @@ const LivePreview = () => {
       fetchVideos(); // Fetch new video data every 30 seconds
     }, 20000); // 30-second interval
   };
-  useEffect(() => {
-    sendSignal();
-  }, [selectedDevice]);
-  // Auto-play the current video whenever it changes
+
   useEffect(() => {
     if (videoData.length > 0 && currentVideoIndex >= 0) {
       const currentVideo = videoData[currentVideoIndex];
