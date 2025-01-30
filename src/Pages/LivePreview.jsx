@@ -17,7 +17,7 @@ const LivePreview = () => {
   const toTime = "23:59:59"; // End of the day
   const now = new Date();
   const currentTime = now.toTimeString().slice(0, 8);
-  const oneMinuteAgo = new Date(now.getTime() - 5 * 60 * 1000);
+  const oneMinuteAgo = new Date(now.getTime() - 2 * 60 * 1000);
   const oneMinuteAgoTime = oneMinuteAgo.toTimeString().slice(0, 8);
   console.log(oneMinuteAgoTime, currentTime);
   // Function to check if the device is live
