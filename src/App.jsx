@@ -12,7 +12,8 @@ export default function App() {
         <Layout titlename="GeoCam home" >
        <h1>Home Skoegle</h1>
        <Link to="/preview"> Preview</Link> <br/>
-       <Link to="/live"> Live</Link>
+       <Link to="/live"> Live</Link><br/>
+       <Link to="/downloads"> Downloads</Link>
         </Layout>
       ),
     },
