@@ -3,6 +3,7 @@ import { Link, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./Pages/Home";
 import Live from "./Pages/LivePreview";
 import LivePreview from "./Pages/LivePreview";
+import Downloads from "./Pages/DownLoads";
 export default function App() {
   const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ export default function App() {
     {
       path:"/signup",
       element: <Layout titlename="GeoCam signup" ><h1>signup</h1></Layout>
+    },
+    {
+      path:"/downloads",
+      element:<Layout titlename="downloads" > <Downloads/></Layout>
     }
   ]);
   return <RouterProvider router={router} />;
