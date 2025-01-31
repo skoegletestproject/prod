@@ -201,10 +201,7 @@ const LivePreview = () => {
             >
               {/* <option value="Device-1">Device 1</option> */}
               <option value="Device-1">Device 1 - Kochi Car</option>
-              <option value="Device-2">Device 2 - Delhi Bike </option>
-              <option value="Device-3">Device 3 - Bangalore Car </option>
-              <option value="Device-4">Device 4 -Bangalore Bike </option>
-              <option value="Device-5">Device 5- Bangalore Lab</option>
+             
             </select>
           </div>
           </div>
