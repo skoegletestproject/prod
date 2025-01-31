@@ -31,6 +31,9 @@ export default function Navbar() {
                 <Link to="/Live" style={styles.link}>
                     Live
                 </Link>
+                <Link to="/downloads" style={styles.link}>
+                Downloads
+                </Link>
                
                 {/* <Link to="/login" style={styles.link}>
                     Login
