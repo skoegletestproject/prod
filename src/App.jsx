@@ -1,9 +1,9 @@
 import Layout from "./Layout/Layout";
 import { Link, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./Pages/Home";
-import Live from "./Pages/LivePreview";
+// import Live from "./Pages/LivePreview";
 import LivePreview from "./Pages/LivePreview";
-import Downloads from "./Pages/DownLoads";
+import Downloads from "./Pages/Downloads";
 export default function App() {
   const router = createBrowserRouter([
     {
